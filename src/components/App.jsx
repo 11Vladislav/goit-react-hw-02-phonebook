@@ -10,7 +10,8 @@ const INITIAL_STATE = {
     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
   ],
   name: '',
-  number: ''
+  number: '',
+  filter: '',
 };
 
 export class App extends Component {
@@ -66,12 +67,16 @@ export class App extends Component {
             <button type="submit">Add</button>
           </form>
           <h2>Contacts</h2>
+          <p>Find contacts by name</p>
+          <input type="text" name="filter" value={this.state.filter} onChange={this.handleChange} />
           <ul>
-            {contacts.map(contact => (
-              <li key={contact.id}>
-                {contact.name}: {contact.number}
-              </li>
-            ))}
+            {contacts
+              .filter(contact => contact.name.toLowerCase().includes(this.state.filter.toLowerCase()))
+              .map(contact => (
+                <li key={contact.id}>
+                  {contact.name} {contact.number}
+                </li>
+              ))}
           </ul>
         </div>
       );
