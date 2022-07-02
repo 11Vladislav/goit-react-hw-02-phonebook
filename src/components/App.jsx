@@ -1,85 +1,72 @@
-import { Component } from "react";
-import { nanoid } from "nanoid";
-
+import { Component } from 'react';
+import ContactForm from './ContactForm/ContactForm';
+import Filter from './Filter/Filter';
+import ContactList from './ContactList/ContactList';
+import Section from './Section/Section';
 
 const INITIAL_STATE = {
   contacts: [
-    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
-    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
-    { id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
-    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
+    { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+    { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+    { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+    { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
   ],
-  name: '',
-  number: '',
   filter: '',
 };
 
 export class App extends Component {
-  state = INITIAL_STATE;
-  
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
-  }
+  state = { ...INITIAL_STATE };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const { name, number } = this.state;
-    if (name === '' || number === '') {
+  handleFilterChange = filter => {
+    this.setState({ filter });
+  };
+
+  handleAddContact = contact => {
+    const { contacts } = this.state;
+    if (contacts.filter(({ name }) => name === contact.name).length !== 0) {
+      alert(contact.name + ' is already in contacts!');
       return;
     }
-    const contact = {
-      id: nanoid(),
-      name,
-      number
-    };
-    this.setState({
-      contacts: [...this.state.contacts, contact],
-      name: '',
-      number: ''
+
+    this.setState(prevState => ({
+      ...INITIAL_STATE,
+      contacts: [contact, ...prevState.contacts],
+    }));
+  };
+
+  handleDeleteContact = id => {
+    this.setState(({ contacts }) => {
+      const updatedContacts = contacts.filter(contact => contact.id !== id);
+      return { ...INITIAL_STATE, contacts: updatedContacts };
     });
+  };
+
+  filterContacts = () => {
+    const { contacts, filter } = this.state;
+    return contacts.filter(contact =>
+      contact.name.toLowerCase().includes(filter.toLowerCase()),
+    );
+  };
+
+  render() {
+    const { filter } = this.state;
+    const filteredContacts = this.filterContacts();
+
+    return (
+      <>
+        <Section title="Phonebook">
+          <ContactForm onAddContact={this.handleAddContact} />
+        </Section>
+        <Section title="Contacts">
+          <Filter filter={filter} onFilterChange={this.handleFilterChange} />
+          <ContactList
+            contacts={filteredContacts}
+            onDeleteContact={this.handleDeleteContact}
+          />
+        </Section>
+      </>
+    );
   }
-    render() {
-      const { contacts, name, number } = this.state;
-      return (
-        <div>
-          <h1>Phonebook</h1>
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              Name:
-              <input
-                type="text"
-                name="name"
-                value={name}
-                onChange={this.handleChange}
-              />
-            </label>
-            <label>
-              Number:
-              <input
-                type="text"
-                name="number"
-                value={number}
-                onChange={this.handleChange}
-              />
-            </label>
-            <button type="submit">Add</button>
-          </form>
-          <h2>Contacts</h2>
-          <p>Find contacts by name</p>
-          <input type="text" name="filter" value={this.state.filter} onChange={this.handleChange} />
-          <ul>
-            {contacts
-              .filter(contact => contact.name.toLowerCase().includes(this.state.filter.toLowerCase()))
-              .map(contact => (
-                <li key={contact.id}>
-                  {contact.name} {contact.number}
-                </li>
-              ))}
-          </ul>
-        </div>
-      );
-    }
-  
-  }
+}
+
+export default App
