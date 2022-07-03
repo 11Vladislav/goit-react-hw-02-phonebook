@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ContactListContainer = styled.div`
+export const ContactListItemContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: baseline;

@@ -21,7 +21,7 @@ export class App extends Component {
     this.setState({ filter });
   };
 
-  handleAddContact = contact => {
+ handleAddContact = contact => {
     const { contacts } = this.state;
     if (contacts.filter(({ name }) => name === contact.name).length !== 0) {
       alert(contact.name + ' is already in contacts!');

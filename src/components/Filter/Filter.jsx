@@ -19,5 +19,5 @@ export default Filter;
 
 Filter.propTypes = {
   filter: PropTypes.string,
-  onFilterChange: PropTypes.func,
+  onFilterChange: PropTypes.func.isRequired,
 };
