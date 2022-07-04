@@ -5,7 +5,7 @@ import ContactList from './ContactList/ContactList';
 import Section from './Section/Section';
 
 const INITIAL_STATE = {
-  contacts: [ 
+  contacts: [
     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
     { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
     { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
@@ -15,25 +15,14 @@ const INITIAL_STATE = {
 }; // Initial state of the application
 
 export class App extends Component {
-  state = { ...INITIAL_STATE }; 
+  state = { ...INITIAL_STATE };
 
   handleFilterChange = filter => {
     this.setState({ filter }); // Set the filter in the state
   };
 
-  componentDidMount = () => {
-    const persistedState = localStorage.getItem('contacts');
-    if (persistedState) {
-      this.setState({ contacts: JSON.parse(persistedState) });
-    }
-  }
-  
-    componentDidUpdate = () => {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  
 
- handleAddContact = contact => {
+  handleAddContact = contact => {
     const { contacts } = this.state;
     if (contacts.filter(({ name }) => name === contact.name).length !== 0) {
       alert(contact.name + ' is already in contacts!'); // If the contact is already in the contacts, alert the user
@@ -67,9 +56,9 @@ export class App extends Component {
     return (
       <>
         <Section title="Phonebook">
-          <ContactForm onAddContact={this.handleAddContact} /> 
-        </Section> 
-        <Section title="Contacts"> 
+          <ContactForm onAddContact={this.handleAddContact} />
+        </Section>
+        <Section title="Contacts">
           <Filter filter={filter} onFilterChange={this.handleFilterChange} />
           <ContactList
             contacts={filteredContacts}
