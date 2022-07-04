@@ -21,6 +21,18 @@ export class App extends Component {
     this.setState({ filter }); // Set the filter in the state
   };
 
+  componentDidMount = () => {
+    const persistedState = localStorage.getItem('contacts');
+    if (persistedState) {
+      this.setState({ contacts: JSON.parse(persistedState) });
+    }
+  }
+  
+    componentDidUpdate = () => {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  
+
  handleAddContact = contact => {
     const { contacts } = this.state;
     if (contacts.filter(({ name }) => name === contact.name).length !== 0) {
