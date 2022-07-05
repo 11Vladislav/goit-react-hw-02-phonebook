@@ -25,7 +25,15 @@ form {
   width: 200px;
 }
 
+p{
+  margin: 0;
+  padding: 0;
+}
 
+li{
+  margin: 0;
+  padding: 0;
+}
 ul {
   margin: 0;
   padding: 0;

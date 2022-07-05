@@ -1,12 +1,14 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
-import PropTypes from 'prop-types';
 import { StyledForm, Input } from './ContactForm.styled';
 
-const INITIAL_STATE = { name: '', number: '' };
+
 
 class ContactForm extends Component {
-  state = { ...INITIAL_STATE };
+  state = {
+    name: '',
+    number: ''
+  };
 
   handleFieldChange = event => {
       this.setState({
@@ -20,7 +22,7 @@ class ContactForm extends Component {
     const { name, number } = this.state;
     const { onAddContact } = this.props;
     onAddContact({ name, number, id: nanoid() });
-    this.setState({ ...INITIAL_STATE });
+    this.setState({ name, number });
   };
 
   render() {
@@ -57,7 +59,3 @@ class ContactForm extends Component {
 
 export default ContactForm;
 
-ContactForm.propTypes = {
-    name: PropTypes.string,
-    number: PropTypes.string,
-}
