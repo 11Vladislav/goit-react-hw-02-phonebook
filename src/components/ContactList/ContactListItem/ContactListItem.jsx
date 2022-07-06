@@ -3,7 +3,7 @@ import { ContactListItemContainer } from './ContactListItem.styled';
 
 export const ContactListItem = ({ id, name, number, onDeleteContact }) => {
     return (    
-        <li key={id}>
+        <li>
             <ContactListItemContainer>
                     <p>{name}</p>
                     <p>{number}</p>
